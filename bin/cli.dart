@@ -14,6 +14,8 @@ void main(List<String> arguments) async  {
 
   // print line
   print('Starting up server: on port $port');
+
+  app.get('/text', (req, res) => {'json_response': true});
   app.get('/text', (req, res) => 'Text response');
 
   app.get('/json', (req, res) => {'json_response': true});

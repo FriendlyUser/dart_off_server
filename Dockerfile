@@ -7,7 +7,7 @@ RUN dart compile exe bin/cli.dart -o server
 RUN chmod 777 server
 
 # copy server file to basic image to run the app
-FROM ubuntu:18.04
+FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/server .
 
