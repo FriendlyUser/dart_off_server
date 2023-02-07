@@ -10,5 +10,6 @@ FROM alpine:latest
 WORKDIR /app
 RUN apk add --no-cache bash
 COPY --from=builder /app/dart_off_server .
-RUN ls
-ENTRYPOINT ["./dart_off_server"]
+RUN ls -la
+RUN pwd
+ENTRYPOINT ["/app/dart_off_server"]
