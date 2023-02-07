@@ -5,4 +5,4 @@ COPY . ./
 RUN dart compile exe bin/cli.dart
 RUN mv bin/cli.exe cli.exe
 RUN chmod +x cli.exe
-ENTRYPOINT [ "dart", "run", "cli.dart" ]
+ENTRYPOINT [ "dart", "run", "bin/cli.dart" ]
