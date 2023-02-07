@@ -7,6 +7,5 @@ RUN dart compile exe bin/cli.dart -o dart_off_server
 
 # copy server file to basic image to run the app
 FROM scratch
-WORKDIR /app
 COPY --from=builder /app/dart_off_server /app/dart_off_server
 ENTRYPOINT ["/app/dart_off_server"]
