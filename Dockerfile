@@ -11,4 +11,4 @@ WORKDIR /app
 RUN apk add --no-cache bash
 COPY --from=builder /app/dart_off_server .
 RUN ls
-CMD [ "./dart_off_server" ]
+ENTRYPOINT ["./dart_off_server"]
