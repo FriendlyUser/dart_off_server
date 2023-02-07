@@ -4,9 +4,16 @@ import 'dart:io';
 
 void main(List<String> arguments) async  {
   // get port from arguments
-  final port = int.tryParse(arguments.first) ?? 6565;
+  var port = 7860;
+  if (arguments.isEmpty) {
+    print('Please provide a port number');
+  } else {
+    port = int.tryParse(arguments.first) ?? 6565;
+  }
   final app = Alfred();
 
+  // print line
+  print('Starting up server: on port $port');
   app.get('/text', (req, res) => 'Text response');
 
   app.get('/json', (req, res) => {'json_response': true});
@@ -26,5 +33,5 @@ void main(List<String> arguments) async  {
     body != null; //true
   });
 
-  await app.listen(7860); //Listening on port 6565
+  await app.listen(port); //Listening on port 6565
 }
