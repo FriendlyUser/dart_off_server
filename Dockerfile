@@ -3,9 +3,10 @@ WORKDIR /app
 COPY pubspec.yaml pubspec.lock ./
 RUN dart pub get 
 COPY . .
-RUN dart compile exe bin/cli.dart -o dart_off_server
+RUN mkdir -p /dart/bin
+RUN dart compile exe bin/cli.dart -o /dart/bin/dart_off_server
 
 # copy server file to basic image to run the app
 FROM scratch
-COPY --from=builder /app/dart_off_server /app/dart_off_server
-ENTRYPOINT ["/app/dart_off_server"]
+COPY --from=builder /dart/bin/dart_off_server /dart/bin/dart_off_server
+ENTRYPOINT ["/dart/bin/dart_off_server"]
