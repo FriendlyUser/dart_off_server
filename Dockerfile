@@ -3,13 +3,9 @@ WORKDIR /app
 COPY pubspec.yaml pubspec.lock ./
 RUN dart pub get 
 COPY . .
-RUN dart compile exe bin/cli.dart -o dart_off_server
+RUN dart compile exe bin/cli.dart -o /dart/bin/dart_off_server
 
 # copy server file to basic image to run the app
-FROM alpine:latest
-WORKDIR /app
-RUN apk add --no-cache bash
-COPY --from=builder /app/dart_off_server .
-RUN ls -la
-RUN pwd
-ENTRYPOINT ["/app/dart_off_server"]
+FROM scratch
+COPY --from=builder /dart/bin/dart_off_server /dart/bin/dart_off_server
+ENTRYPOINT ["/dart/bin/dart_off_server"]
