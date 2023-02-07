@@ -3,12 +3,11 @@ WORKDIR /app
 COPY pubspec.yaml pubspec.lock ./
 RUN dart pub get 
 COPY . .
-RUN dart compile exe bin/cli.dart -o server
-RUN chmod 777 server
+RUN dart compile exe bin/cli.dart -o dart_off_server
 
 # copy server file to basic image to run the app
 FROM alpine:latest
 WORKDIR /app
-COPY --from=builder /app/server .
+COPY --from=builder /app/dart_off_server .
 
-CMD [ "./server" ]
+CMD [ "/app/dart_off_server" ]
