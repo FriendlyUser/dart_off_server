@@ -6,8 +6,8 @@ COPY . .
 RUN dart compile exe bin/cli.dart -o dart_off_server
 
 # copy server file to basic image to run the app
-FROM alpine:latest
+FROM scratch
 WORKDIR /app
 COPY --from=builder /app/dart_off_server .
-
+RUN ls
 CMD [ "/app/dart_off_server" ]
