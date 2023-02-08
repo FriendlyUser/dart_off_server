@@ -3,7 +3,7 @@ WORKDIR /app
 COPY pubspec.yaml pubspec.lock ./
 RUN dart pub get 
 COPY . .
-RUN dart compile exe bin/cli.dart -o /app/dart_off_server
+RUN dart compile exe bin/dart_off_server.dart -o /app/dart_off_server
 
 # copy server file to basic image to run the app
 FROM ubuntu:latest

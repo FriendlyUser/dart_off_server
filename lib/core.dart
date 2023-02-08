@@ -2,9 +2,9 @@ import 'package:openfoodfacts/openfoodfacts.dart';
 
 Future<SearchResult> search(Map<String, String> query) {
   var parametersList = <Parameter>[];
-  // check for terms in quer
+  // check for terms in query
+
   if (query.containsKey('terms')) {
-    // print('terms: ${query['terms']}');
     var terms = query['terms'];
     if (terms != null && terms.isNotEmpty) {
       parametersList.add(SearchTerms(terms: terms.split(',')));
@@ -12,7 +12,6 @@ Future<SearchResult> search(Map<String, String> query) {
   }
   // check for withoutAddictives
   if (query.containsKey('withoutAdditives')) {
-    // print('withoutAdditives: ${query['withoutAdditives']}');
     var withoutAdditives = query['withoutAdditives'];
     if (withoutAdditives != null && withoutAdditives == "true") {
       parametersList.add(WithoutAdditives());
@@ -20,7 +19,6 @@ Future<SearchResult> search(Map<String, String> query) {
   }
 
   if (query.containsKey('sort')) {
-    // print('sort: ${query['sort']}');
     var sort = query['sort'];
     if (sort != null && sort.isNotEmpty) {
       var option = SortOption.values.firstWhere(
@@ -43,7 +41,6 @@ Future<SearchResult> search(Map<String, String> query) {
 
   // page size
   if (query.containsKey('size')) {
-    // print('size: ${query['size']}');
     var size = query['size'];
     if (size != null && size.isNotEmpty) {
       parametersList.add(PageSize(size: int.parse(size)));
@@ -52,7 +49,6 @@ Future<SearchResult> search(Map<String, String> query) {
 
   // page number
   if (query.containsKey('page')) {
-    // print('page: ${query['page']}');
     var page = query['page'];
     if (page != null && page.isNotEmpty) {
       parametersList.add(PageNumber(page: int.parse(page)));
@@ -61,7 +57,6 @@ Future<SearchResult> search(Map<String, String> query) {
 
   // by tags
   if (query.containsKey('tags')) {
-    // print('tags: ${query['tags']}');
     var rawTags = query['tags'];
     if (rawTags != null && rawTags.isNotEmpty) {
       var tags = rawTags.split(',');
