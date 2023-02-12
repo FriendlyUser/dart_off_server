@@ -14,3 +14,8 @@ Check out the configuration reference at https://huggingface.co/docs/hub/spaces-
 
 A sample command-line application with an entrypoint in `bin/`, library code
 in `lib/`, and example unit test in `test/`.
+
+
+View source at https://huggingface.co/spaces/FriendlyUser/dart_off_server and
+
+https://friendlyuser-dart-off-server.hf.space/
