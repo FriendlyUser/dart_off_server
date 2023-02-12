@@ -1,4 +1,4 @@
-import 'package:dart_off_server/core.dart' as openfood;
+import 'package:dart_off_server/core.dart' as core;
 import 'package:alfred/alfred.dart';
 import 'dart:io';
 import 'package:openfoodfacts/openfoodfacts.dart';
@@ -11,7 +11,7 @@ void main(List<String> arguments) async  {
   } else {
     port = int.tryParse(arguments.first) ?? 6565;
   }
-  openfood.mkConfiguration();
+  core.mkConfiguration();
   final app = Alfred();
 
   // print line
@@ -42,11 +42,15 @@ void main(List<String> arguments) async  {
 
   app.get('/food/search', (req, res) {
     final query = req.uri.queryParameters;
-    return openfood.search(query).then((value) {
+    return core.search(query).then((value) {
       res.json(value);
     }).catchError((error) {
       res.json(error);
     });
+  });
+
+  app.get('/steam', (req, res) {
+    return core.findTopSteamSellers();
   });
 
   await app.listen(port); //Listening on port 6565

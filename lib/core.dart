@@ -1,4 +1,9 @@
 import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:http/http.dart' as http;
+// ignore_for_file: constant_identifier_names
+import 'package:beautiful_soup_dart/beautiful_soup.dart';
+import './types.dart';
+
 
 Future<SearchResult> search(Map<String, String> query) {
   var parametersList = <Parameter>[];
@@ -97,4 +102,50 @@ void mkConfiguration() {
   ];
 
   OpenFoodAPIConfiguration.globalCountry = OpenFoodFactsCountry.CANADA;
+}
+
+
+// function that scans for top steam charts
+
+Future<List<SteamTopSeller>> findTopSteamSellers() async {
+  var url = Uri.https('store.steampowered.com', 'search/?filter=topsellers');
+  var html = await http.get(url);
+  return parseSteamTopSellers(html.body);
+}
+
+List<SteamTopSeller> parseSteamTopSellers(String rawHTML ) {
+  BeautifulSoup  soup = BeautifulSoup(rawHTML);
+  var searchResultsDiv = soup.find('div', attrs: {'id': 'search_resultsRows'});
+  if (searchResultsDiv == null) {
+    return <SteamTopSeller>[];
+  }
+  var topSellers = searchResultsDiv.findAll('a');
+
+  if (topSellers.isEmpty) {
+    return <SteamTopSeller>[];
+  }
+  var topSellersList = <SteamTopSeller>[];
+  for (var topSeller in topSellers) {
+    var imageDiv = topSeller.find('img');
+    String? imageSrc = '';
+    if (imageDiv != null) {
+      imageSrc = imageDiv.attributes['src'];
+    }
+    var title = topSeller.find('span', attrs: {'class': 'title'})?.text;
+    var publishDate = topSeller.find('div', attrs: {'class': 'col search_released responsive_secondrow'})?.text;
+    // var publishDate = topSeller.find('div', attrs: {'class': 'tab_item_top_tags'}).text;
+    // get data-price-final
+    var price = topSeller.find('div', attrs: {'class': 'search_price_discount_combined'})?.attributes['data-price-final'];
+    var discountDiv = topSeller.find('div', attrs: {'class': 'search_discount'});
+    String discount = "";
+    if (discountDiv != null) {
+      var discountSpan = discountDiv.find("span");
+      if (discountSpan != null) {
+        discount = discountSpan.text;
+      }
+    }
+    topSellersList.add(SteamTopSeller(imageSrc, title, price, publishDate, discount));
+  }
+
+  return topSellersList;
 }
